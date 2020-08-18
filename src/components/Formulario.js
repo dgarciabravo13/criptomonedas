@@ -23,7 +23,7 @@ const Boton = styled.input`
   }
 `;
 
-const Formulario = () => {
+const Formulario = ({setMoneda,setCriptoMoneda}) => {
   //state del formulario para agregar la consulta de la API
 
   const [listadocripto, setListadoCripto] = useState([]);
@@ -69,6 +69,8 @@ const Formulario = () => {
       return;
     }
     setError(false);
+    setMoneda(moneda);
+    setCriptoMoneda(criptomoneda);
   };
 
   return (
