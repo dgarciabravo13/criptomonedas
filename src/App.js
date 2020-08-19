@@ -3,6 +3,7 @@ import styled from "styled-components";
 import imagen from "./cryptomonedas.png";
 import Formulario from "./components/Formulario";
 import Cotizacion from "./components/Cotizacion";
+import Spinner from "./components/Spinner";
 import axios from "axios";
 
 const Contenedor = styled.div`
@@ -42,6 +43,7 @@ function App() {
   const [moneda, setMoneda] = useState("");
   const [criptomoneda, setCriptoMoneda] = useState("");
   const [resultado, setResultado] = useState({});
+  const [cargando, setCargando] = useState(false);
 
   useEffect(() => {
     const cotizarCriptomoneda = async () => {
@@ -49,10 +51,21 @@ function App() {
       //consultar la API para obtener la cotizacion
       const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`;
       const resultado = await axios.get(url);
-      setResultado(resultado.data.DISPLAY[criptomoneda][moneda]);
+      //mostrar el spinner
+      setCargando(true);
+      //ocultar spinner y mostrar resultado
+      setTimeout(()=>{
+        setCargando(false);
+        setResultado(resultado.data.DISPLAY[criptomoneda][moneda]);
+      },3000);
+      
     };
     cotizarCriptomoneda();
   }, [moneda, criptomoneda]);
+
+  //Mostrar spinner o resultado de forma condicional
+
+  const componente = (cargando) ? <Spinner/> : <Cotizacion resultado={resultado} />
 
   return (
     <Contenedor>
@@ -62,7 +75,7 @@ function App() {
       <div>
         <Heading>Cotiza Criptomonedas al Instante</Heading>
         <Formulario setMoneda={setMoneda} setCriptoMoneda={setCriptoMoneda} />
-        <Cotizacion resultado={resultado} />
+        {componente}
       </div>
     </Contenedor>
   );

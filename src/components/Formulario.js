@@ -4,6 +4,7 @@ import Error from "./Error";
 import useMoneda from "../hooks/useMoneda";
 import useCriptomoneda from "../hooks/useCriptomoneda";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 const Boton = styled.input`
   margin-top: 20px;
@@ -82,5 +83,10 @@ const Formulario = ({setMoneda,setCriptoMoneda}) => {
     </form>
   );
 };
+
+Formulario.propTypes = {
+  setMoneda : PropTypes.func.isRequired,
+  setCriptoMoneda : PropTypes.func.isRequired
+}
 
 export default Formulario;
